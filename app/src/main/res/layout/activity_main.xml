@@ -1,0 +1,67 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity" tools:ignore="MergeRootFrame" >
+
+    <GridLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentRight="false"
+
+        android:columnCount="9"
+        android:rowCount="9"
+        android:id="@+id/my_grid">
+
+        <TextView
+            android:text="@string/nothing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_field"
+            android:layout_above="@+id/text_button"
+            android:layout_alignRight="@+id/button1"
+            android:layout_alignEnd="@+id/button1"
+            android:layout_marginBottom="94dp"
+            android:layout_row="0"
+            android:layout_column="0" />
+
+        <TextView
+            android:text="@string/nothing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/grid_text_field1"
+            android:layout_above="@+id/text_button"
+            android:layout_alignRight="@+id/button1"
+            android:layout_alignEnd="@+id/button1"
+            android:layout_marginBottom="94dp"
+            android:layout_row="0"
+            android:layout_column="1" />
+
+        <TextView
+            android:text="@string/nothing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/grid_text_field2"
+            android:layout_above="@+id/text_button"
+            android:layout_alignRight="@+id/button1"
+            android:layout_alignEnd="@+id/button1"
+            android:layout_marginBottom="94dp"
+            android:layout_row="0"
+            android:layout_column="2" />
+
+    </GridLayout>
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Button!"
+        android:id="@+id/button1"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
