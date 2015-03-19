@@ -5,8 +5,11 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.GridView;
 import android.widget.TextView;
 
 
@@ -18,19 +21,36 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         final Button button = (Button) findViewById(R.id.button1);
+        final Button test_button = (Button) findViewById(R.id.test_button);
 
-        GridLayout numberGridLayout =(GridLayout) findViewById(R.id.my_grid);
+        final GridView numberGridView =(GridView) findViewById(R.id.my_grid);
         final TextView text = (TextView) findViewById(R.id.text_field);
+        final TextView[] numbers = new TextView[81];
+        final Integer[] data = new Integer[81];
 
-        TextView[] numbers = new TextView[81];
+        for (int i = 0; i < data.length;i++){
+            data[i]=i;
+        }
 
-        for(int i = 0; i < numberGridLayout.getChildCount();i++){
-            if(numberGridLayout.getChildAt(i).getClass()==TextView.class){
-                numbers[i] = (TextView) numberGridLayout.getChildAt(i);
+        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_list_item_1,data);
+
+        numberGridView.setAdapter(adapter);
+
+        for(int i = 0; i < numberGridView.getChildCount();i++){
+            if(numberGridView.getChildAt(i).getClass()==TextView.class){
+                numbers[i] = (TextView) numberGridView.getChildAt(i);
                 numbers[i].setBackgroundResource(R.drawable.selector_button);
                 numbers[i].setText(Integer.toString(i));
             }
         }
+
+//        dynamically set the buttons to fill the grid layout.
+//        currently only does it wide. fix later to fill height.
+//        int idealChildWidth = (int) ((numberGridView.getWidth())/numberGridView.getNumColumns());
+//        for( int i=0; i< numberGridView.getChildCount();i++){
+//            numbers[i] = (TextView) numberGridView.getChildAt(i);
+//            numbers[i].setWidth(idealChildWidth);
+//        }
 
         button.setOnClickListener(new OnClickListener() {
             @Override
@@ -40,11 +60,33 @@ public class MainActivity extends Activity {
                 numberPickerDialog.setValueListener(new NumberPickerDialog.OnValueSetListener() {
                     @Override
                     public void onValueSet(int value) {
-                        text.setText(Integer.toString(value));
+                        numbers[0].setText(Integer.toString(value));
+                        numbers[1].setText(Integer.toString(Integer.parseInt(numbers[0].getText().toString()) + 5));
                         numberPickerDialog.dismiss();
                     }
                 });
+
                 numberPickerDialog.show(fm, "fragment_number_picker");
+            }
+        });
+
+        test_button.setOnClickListener(new OnClickListener() {
+                                      @Override
+                                      public void onClick(View v) {
+                                          for(int i = 0; i < numberGridView.getChildCount();i++){
+                                              if(numberGridView.getChildAt(i).getClass()==TextView.class){
+                                                  numbers[i] = (TextView) numberGridView.getChildAt(i);
+                                                  numbers[i].setText("null");
+                                              }
+                                          }
+                                      }
+                                  }
+        );
+
+        numberGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
             }
         });
     }

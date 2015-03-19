@@ -1,67 +1,70 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
     tools:context=".MainActivity" tools:ignore="MergeRootFrame" >
 
-    <GridLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_alignParentEnd="false"
-        android:layout_alignParentStart="false"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentRight="false"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:orientation="horizontal">
 
-        android:columnCount="9"
-        android:rowCount="9"
-        android:id="@+id/my_grid">
-
-        <TextView
-            android:text="@string/nothing"
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/text_field"
-            android:layout_above="@+id/text_button"
-            android:layout_alignRight="@+id/button1"
-            android:layout_alignEnd="@+id/button1"
-            android:layout_marginBottom="94dp"
-            android:layout_row="0"
-            android:layout_column="0" />
+            android:text="Test Button"
+            android:id="@+id/test_button"
+            android:layout_marginLeft="47dp"
+            android:layout_marginStart="47dp" />
 
-        <TextView
-            android:text="@string/nothing"
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/grid_text_field1"
-            android:layout_above="@+id/text_button"
-            android:layout_alignRight="@+id/button1"
-            android:layout_alignEnd="@+id/button1"
-            android:layout_marginBottom="94dp"
-            android:layout_row="0"
-            android:layout_column="1" />
+            android:text="New Button!"
+            android:id="@+id/button1"
+            android:layout_marginLeft="88dp"
+            android:layout_marginStart="88dp"
+            android:layout_gravity="center_horizontal" />
+        </LinearLayout>
 
-        <TextView
-            android:text="@string/nothing"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/grid_text_field2"
-            android:layout_above="@+id/text_button"
-            android:layout_alignRight="@+id/button1"
-            android:layout_alignEnd="@+id/button1"
-            android:layout_marginBottom="94dp"
-            android:layout_row="0"
-            android:layout_column="2" />
+    <GridView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:columnCount="9"
+    android:rowCount="9"
+    android:columnWidth="50dp"
+    android:stretchMode="columnWidth"
+    android:id="@+id/my_grid">
+        <!--<TextView-->
+        <!--android:text="HELLO"-->
+        <!--android:layout_width="59dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/text_field"-->
+        <!--android:layout_marginBottom="94dp"-->
+        <!--android:layout_row="0"-->
+        <!--android:layout_column="0" />-->
 
-    </GridLayout>
+        <!--<TextView-->
+        <!--android:text="@string/nothing"-->
+        <!--android:layout_width="26dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/grid_text_field1"-->
+        <!--android:layout_marginBottom="94dp"-->
+        <!--android:layout_row="0"-->
+        <!--android:layout_column="1" />-->
 
+        <!--<TextView-->
+        <!--android:text="@string/nothing"-->
+        <!--android:layout_width="35dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/grid_text_field2"-->
+        <!--android:layout_marginBottom="94dp"-->
+        <!--android:layout_row="0"-->
+        <!--android:layout_column="2" />-->
+    </GridView>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button!"
-        android:id="@+id/button1"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-
-</RelativeLayout>
+</LinearLayout>
