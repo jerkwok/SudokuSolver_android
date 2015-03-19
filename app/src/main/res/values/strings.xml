@@ -9,5 +9,6 @@
     <string name="reset">Reset</string>
     <string name="Picker">Picker</string>
     <string name="solve">Solve!</string>
+    <string name="Random">Random</string>
 
 </resources>

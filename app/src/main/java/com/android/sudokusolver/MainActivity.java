@@ -12,6 +12,9 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 
 public class MainActivity extends Activity {
 
@@ -21,23 +24,26 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final Button button = (Button) findViewById(R.id.button1);
-        final Button test_button = (Button) findViewById(R.id.test_button);
-        final Button solve_button = (Button) findViewById(R.id.solve_button);
+        final Button randomPuzzleButton = (Button) findViewById(R.id.button1);
+        final Button resetButton = (Button) findViewById(R.id.test_button);
+        final Button solveButton = (Button) findViewById(R.id.solve_button);
 
         final GridView numberGridView =(GridView) findViewById(R.id.my_grid);
         final TextView[] numbers = new TextView[81];
         final Integer[] data = new Integer[81];
+        final ArrayList<String> puzzles = new ArrayList<String>();
+        final ArrayList<String> visibilities = new ArrayList<String>();
 
         //our data array. A value of 10 indicates no entry.
         for (int i = 0; i < data.length;i++){
             data[i]=10;
         }
 
+        //Set our adapter and populate our grid view
         ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_list_item_1,data);
-
         numberGridView.setAdapter(adapter);
 
+        //populate our text view array, set the backgrounds of our text view.
         for(int i = 0; i < numberGridView.getChildCount();i++){
             if(numberGridView.getChildAt(i).getClass()==TextView.class){
                 numbers[i] = (TextView) numberGridView.getChildAt(i);
@@ -45,7 +51,20 @@ public class MainActivity extends Activity {
             }
         }
 
-        refreshDisplay(numberGridView, numbers, data);
+        //initial refresh the display
+        this.refreshDisplay(numberGridView, numbers, data);
+
+        //Add random puzzles
+        puzzles.add(0,"839741256614523798527986314172654839398172465465839172286315947753498621941267583");
+        visibilities.add(0,"011110110101111011101011011011011011011010110110110110110110101110111101011011110");
+        puzzles.add(1,"198675432367924815425813967786391254243567198519482673652138749974256381831749526");
+        visibilities.add(1,"110011111011110111110110001011111100101101101001111110100011011111011110111110011");
+        puzzles.add(2,"354726981861349725972185436743812569619573842528694173297431658185267394436958217");
+        visibilities.add(2,"111111001101101011110010111001111111010101010111111100111010011110101101100111111");
+        puzzles.add(3,"362847159985321674471659283146538792527496831893712546659183427734265918218974365");
+        visibilities.add(3,"111001111110110101110111010101110110011101110011011101010111011101011011111100111");
+        puzzles.add(4,"537862419264139857198745632942513786376428195815976324481257963659384271723691548");
+        visibilities.add(4,"111100011011111101111011100010001111101111101111100010001110111101111110110001111");
 
 //        dynamically set the buttons to fill the grid layout.
 //        currently only does it wide. fix later to fill height.
@@ -55,84 +74,44 @@ public class MainActivity extends Activity {
 //            numbers[i].setWidth(idealChildWidth);
 //        }
 
-        button.setOnClickListener(new OnClickListener() {
+        randomPuzzleButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-//         <----------Old Testing Code used to test picker fragment--------->
-//                FragmentManager fm = getFragmentManager();
-//                final NumberPickerDialog numberPickerDialog = new NumberPickerDialog();
-//                numberPickerDialog.setValueListener(new NumberPickerDialog.OnValueSetListener() {
-//                    @Override
-//                    public void onValueSet(int value) {
-//                        for(int i = 0; i < numberGridView.getChildCount();i++){
-//                            if(numberGridView.getChildAt(i).getClass()==TextView.class){
-//                                if (data[i] != 10) {
-//                                    numbers[i].setText(Integer.toString(data[i]));
-//                                }else{
-//                                    numbers[i].setText("-");
-//                                }
-//                            }
-//                        }
-//
-//                        numberPickerDialog.dismiss();
-//                    }
-//                });
-//
-//                numberPickerDialog.show(fm, "fragment_number_picker");
-//      <-----------End of old testing code-------->
-                //Put in a test
-                for (int i = 0; i < data.length;i++){
-                    data[i]=10;
+
+                //get a random puzzle
+                Random random = new Random();
+                int puzzleNumber = random.nextInt(5);
+
+                //display the puzzle on the grid
+                Integer[] temp = fillDisplay(puzzles.get(puzzleNumber), visibilities.get(puzzleNumber));
+
+                for (int i = 0; i < temp.length; i++) {
+                    data[i] = temp[i];
                 }
 
-                data[0] = 8;
-                data[5] = 1;
-                data[8] = 6;
-                data[10] = 1;
-                data[15] = 7;
-                data[19] = 2;
-                data[21] = 9;
-                data[24] = 3;
-                data[27] = 1;
-                data[30] = 6;
-                data[33] = 8;
-                data[36] = 3;
-                data[39] = 1;
-                data[41] = 2;
-                data[44] = 5;
-                data[47] = 5;
-                data[50] = 9;
-                data[53] = 2;
-                data[56] = 6;
-                data[59] = 5;
-                data[61] = 4;
-                data[65] = 3;
-                data[70] = 2;
-                data[72] = 9;
-                data[75] = 2;
-                data[80] = 3;
-
                 refreshDisplay(numberGridView, numbers, data);
+
+                Toast.makeText(getApplicationContext(),
+                        "Puzzle #" + Integer.toString(puzzleNumber), Toast.LENGTH_SHORT).show();
             }
         });
 
-        test_button.setOnClickListener(new OnClickListener() {
-                                      @Override
-                                      public void onClick(View v) {
-                                          //reset data
-                                          for (int i = 0; i < data.length;i++){
-                                              data[i]=10;
-                                          }
+        resetButton.setOnClickListener(new OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                //reset data
+                                                for (int i = 0; i < data.length; i++) {
+                                                    data[i] = 10;
+                                                }
 
-                                          refreshDisplay(numberGridView, numbers, data);
-                                      }
-                                  }
+                                                refreshDisplay(numberGridView, numbers, data);
+                                            }
+                                        }
         );
 
         numberGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-//              numbers[position].setText(Integer.toString(position));
                 FragmentManager fm = getFragmentManager();
                 final NumberPickerDialog numberPickerDialog = new NumberPickerDialog();
                 numberPickerDialog.setValueListener(new NumberPickerDialog.OnValueSetListener() {
@@ -152,16 +131,16 @@ public class MainActivity extends Activity {
             }
         });
 
-        solve_button.setOnClickListener(new OnClickListener() {
+        solveButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 //solve things
                 Solver solver = new Solver(data);
                 Integer[] temp = solver.getResult();
-                if (temp == null){
+                if (temp == null) {
                     Toast.makeText(getApplicationContext(),
-                        "Unsolvable", Toast.LENGTH_SHORT).show();
-                }else {
+                            "Unsolvable", Toast.LENGTH_SHORT).show();
+                } else {
                     for (int i = 0; i < temp.length; i++) {
                         data[i] = temp[i];
                     }
@@ -186,5 +165,19 @@ public class MainActivity extends Activity {
                 }
             }
         }
+    }
+
+    //fills the display with a puzzle
+    private Integer[] fillDisplay(String answers, String visible) {
+       Integer[] data = new Integer[81];
+        for (int i = 0; i < answers.length(); i++) {
+            if (visible.charAt(i) == '0'){
+                data[i]=Character.getNumericValue(answers.charAt(i));
+
+            }else{
+                data[i] = 10;
+            }
+        }
+        return data;
     }
 }
