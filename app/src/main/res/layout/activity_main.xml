@@ -24,7 +24,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Button!"
+            android:text="Picker"
             android:id="@+id/button1"
             android:layout_marginLeft="88dp"
             android:layout_marginStart="88dp"
@@ -32,12 +32,11 @@
         </LinearLayout>
 
     <GridView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:columnCount="9"
-    android:rowCount="9"
-    android:columnWidth="50dp"
-    android:stretchMode="columnWidth"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:numColumns="9"
+    android:columnWidth="38dp"
+    android:stretchMode="none"
     android:id="@+id/my_grid">
         <!--<TextView-->
         <!--android:text="HELLO"-->

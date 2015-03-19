@@ -8,7 +8,6 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -24,7 +23,6 @@ public class MainActivity extends Activity {
         final Button test_button = (Button) findViewById(R.id.test_button);
 
         final GridView numberGridView =(GridView) findViewById(R.id.my_grid);
-        final TextView text = (TextView) findViewById(R.id.text_field);
         final TextView[] numbers = new TextView[81];
         final Integer[] data = new Integer[81];
 
@@ -60,9 +58,12 @@ public class MainActivity extends Activity {
                 numberPickerDialog.setValueListener(new NumberPickerDialog.OnValueSetListener() {
                     @Override
                     public void onValueSet(int value) {
-                        numbers[0].setText(Integer.toString(value));
-                        numbers[1].setText(Integer.toString(Integer.parseInt(numbers[0].getText().toString()) + 5));
-                        numberPickerDialog.dismiss();
+                        if (value < 9) {
+                            numbers[value].setText(Integer.toString(value));
+                            numbers[value*value].setText(Integer.toString(value*value));
+                            numbers[5].setText(Integer.toString(Integer.parseInt(numbers[0].getText().toString()) + 5));
+                            numberPickerDialog.dismiss();
+                        }
                     }
                 });
 
@@ -76,7 +77,7 @@ public class MainActivity extends Activity {
                                           for(int i = 0; i < numberGridView.getChildCount();i++){
                                               if(numberGridView.getChildAt(i).getClass()==TextView.class){
                                                   numbers[i] = (TextView) numberGridView.getChildAt(i);
-                                                  numbers[i].setText("null");
+                                                  numbers[i].setText("-");
                                               }
                                           }
                                       }
