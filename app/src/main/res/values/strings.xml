@@ -8,5 +8,6 @@
     <string name="nothing">-</string>
     <string name="reset">Reset</string>
     <string name="Picker">Picker</string>
+    <string name="solve">Solve!</string>
 
 </resources>
