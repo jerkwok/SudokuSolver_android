@@ -16,7 +16,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Test Button"
+            android:text="@string/reset"
             android:id="@+id/test_button"
             android:layout_marginLeft="47dp"
             android:layout_marginStart="47dp" />
@@ -24,7 +24,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Picker"
+            android:text="@string/Picker"
             android:id="@+id/button1"
             android:layout_marginLeft="88dp"
             android:layout_marginStart="88dp"

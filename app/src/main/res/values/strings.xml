@@ -6,5 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world2">New Text!</string>
     <string name="nothing">-</string>
+    <string name="reset">Reset</string>
+    <string name="Picker">Picker</string>
 
 </resources>

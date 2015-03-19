@@ -26,10 +26,12 @@ public class NumberPickerDialog extends DialogFragment  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.numberpicker,container,false);
+//        String[] display = {"0","1","2","3","4","5","6","7","8","9","-"};
 
         mNumberDialog = (NumberPicker) view.findViewById(R.id.number_picker);
         mNumberDialog.setMinValue(0);
-        mNumberDialog.setMaxValue(9);
+        mNumberDialog.setMaxValue(10);
+//        mNumberDialog.setDisplayedValues(display);
         mNumberDialog.setWrapSelectorWheel(true);
         getDialog().setTitle("Picker");
 

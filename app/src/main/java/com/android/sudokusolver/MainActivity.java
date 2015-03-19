@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class MainActivity extends Activity {
@@ -26,8 +27,9 @@ public class MainActivity extends Activity {
         final TextView[] numbers = new TextView[81];
         final Integer[] data = new Integer[81];
 
+        //our data array. A value of 10 indicates no entry.
         for (int i = 0; i < data.length;i++){
-            data[i]=i;
+            data[i]=10;
         }
 
         ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_list_item_1,data);
@@ -38,7 +40,6 @@ public class MainActivity extends Activity {
             if(numberGridView.getChildAt(i).getClass()==TextView.class){
                 numbers[i] = (TextView) numberGridView.getChildAt(i);
                 numbers[i].setBackgroundResource(R.drawable.selector_button);
-                numbers[i].setText(Integer.toString(i));
             }
         }
 
@@ -58,12 +59,17 @@ public class MainActivity extends Activity {
                 numberPickerDialog.setValueListener(new NumberPickerDialog.OnValueSetListener() {
                     @Override
                     public void onValueSet(int value) {
-                        if (value < 9) {
-                            numbers[value].setText(Integer.toString(value));
-                            numbers[value*value].setText(Integer.toString(value*value));
-                            numbers[5].setText(Integer.toString(Integer.parseInt(numbers[0].getText().toString()) + 5));
-                            numberPickerDialog.dismiss();
+                        for(int i = 0; i < numberGridView.getChildCount();i++){
+                            if(numberGridView.getChildAt(i).getClass()==TextView.class){
+                                if (data[i] != 10) {
+                                    numbers[i].setText(Integer.toString(data[i]));
+                                }else{
+                                    numbers[i].setText("-");
+                                }
+                            }
                         }
+
+                        numberPickerDialog.dismiss();
                     }
                 });
 
@@ -74,21 +80,50 @@ public class MainActivity extends Activity {
         test_button.setOnClickListener(new OnClickListener() {
                                       @Override
                                       public void onClick(View v) {
+                                          //reset data
+                                          for (int i = 0; i < data.length;i++){
+                                              data[i]=10;
+                                          }
+
                                           for(int i = 0; i < numberGridView.getChildCount();i++){
                                               if(numberGridView.getChildAt(i).getClass()==TextView.class){
                                                   numbers[i] = (TextView) numberGridView.getChildAt(i);
                                                   numbers[i].setText("-");
                                               }
                                           }
+
+
                                       }
                                   }
         );
 
         numberGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+//                numbers[position].setText(Integer.toString(position));
+                FragmentManager fm = getFragmentManager();
+                final NumberPickerDialog numberPickerDialog = new NumberPickerDialog();
+                numberPickerDialog.setValueListener(new NumberPickerDialog.OnValueSetListener() {
+                    @Override
+                    public void onValueSet(int value) {
+                        if (value < 10) {
+                            numbers[position].setText(Integer.toString(value));
+//                              numbers[value].setText(Integer.toString(position));
+                        }else{
+                            numbers[position].setText("-");
+                        }
+                        Toast.makeText(getApplicationContext(),
+                                Integer.toString(value), Toast.LENGTH_SHORT).show();
 
+                            data[position] = value;
+                            numberPickerDialog.dismiss();
+                    }
+                });
+
+                numberPickerDialog.show(fm, "fragment_number_picker");
             }
         });
+
+
     }
 }
