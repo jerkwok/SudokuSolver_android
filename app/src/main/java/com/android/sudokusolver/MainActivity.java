@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -19,6 +18,8 @@ import java.util.Random;
 public class MainActivity extends Activity {
 
 
+    private GridAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,30 +30,35 @@ public class MainActivity extends Activity {
         final Button solveButton = (Button) findViewById(R.id.solve_button);
 
         final GridView numberGridView =(GridView) findViewById(R.id.my_grid);
-        final TextView[] numbers = new TextView[81];
-        final Integer[] data = new Integer[81];
+//        final TextView[] numbers = new TextView[81];
+//        final Integer[] data = new Integer[81];
         final ArrayList<String> puzzles = new ArrayList<String>();
         final ArrayList<String> visibilities = new ArrayList<String>();
 
         //our data array. A value of 10 indicates no entry.
-        for (int i = 0; i < data.length;i++){
-            data[i]=10;
-        }
+//        for (int i = 0; i < data.length;i++){
+//            data[i]=10;
+//        }
 
         //Set our adapter and populate our grid view
-        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_list_item_1,data);
-        numberGridView.setAdapter(adapter);
+//        final ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_list_item_1,data);
 
         //populate our text view array, set the backgrounds of our text view.
-        for(int i = 0; i < numberGridView.getChildCount();i++){
-            if(numberGridView.getChildAt(i).getClass()==TextView.class){
-                numbers[i] = (TextView) numberGridView.getChildAt(i);
-                numbers[i].setBackgroundResource(R.drawable.selector_button);
-            }
-        }
+//        for(int i = 0; i < numberGridView.getChildCount();i++){
+//            if(numberGridView.getChildAt(i).getClass()==TextView.class){
+//                numbers[i] = (TextView) numberGridView.getChildAt(i);
+//                numbers[i].setText("-");
+//                numbers[i].setBackgroundResource(R.drawable.selector_button);
+//            }
+//        }
+
+        adapter = new GridAdapter(this);
+        adapter.reset();
+        numberGridView.setAdapter(adapter);
+
 
         //initial refresh the display
-        this.refreshDisplay(numberGridView, numbers, data);
+        //refreshDisplay(numberGridView, numbers, data);
 
         //Add random puzzles
         puzzles.add(0,"839741256614523798527986314172654839398172465465839172286315947753498621941267583");
@@ -86,10 +92,8 @@ public class MainActivity extends Activity {
                 Integer[] temp = fillDisplay(puzzles.get(puzzleNumber), visibilities.get(puzzleNumber));
 
                 for (int i = 0; i < temp.length; i++) {
-                    data[i] = temp[i];
+                    adapter.setValue(i, temp[i]);
                 }
-
-                refreshDisplay(numberGridView, numbers, data);
 
                 Toast.makeText(getApplicationContext(),
                         "Puzzle #" + Integer.toString(puzzleNumber), Toast.LENGTH_SHORT).show();
@@ -100,11 +104,7 @@ public class MainActivity extends Activity {
                                             @Override
                                             public void onClick(View v) {
                                                 //reset data
-                                                for (int i = 0; i < data.length; i++) {
-                                                    data[i] = 10;
-                                                }
-
-                                                refreshDisplay(numberGridView, numbers, data);
+                                                adapter.reset();
                                             }
                                         }
         );
@@ -117,13 +117,8 @@ public class MainActivity extends Activity {
                 numberPickerDialog.setValueListener(new NumberPickerDialog.OnValueSetListener() {
                     @Override
                     public void onValueSet(int value) {
-                        if (value < 10) {
-                            numbers[position].setText(Integer.toString(value));
-                        }else{
-                            numbers[position].setText("-");
-                        }
-                            data[position] = value;
-                            numberPickerDialog.dismiss();
+                        adapter.setValue(position, value);
+                        numberPickerDialog.dismiss();
                     }
                 });
 
@@ -135,17 +130,16 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 //solve things
-                Solver solver = new Solver(data);
+                Solver solver = new Solver(adapter.getNumbers());
                 Integer[] temp = solver.getResult();
                 if (temp == null) {
                     Toast.makeText(getApplicationContext(),
                             "Unsolvable", Toast.LENGTH_SHORT).show();
                 } else {
-                    for (int i = 0; i < temp.length; i++) {
-                        data[i] = temp[i];
-                    }
 
-                    refreshDisplay(numberGridView, numbers, data);
+                    for (int i = 0; i < temp.length; i++) {
+                        adapter.setValue(i, temp[i]);
+                    }
 
                     Toast.makeText(getApplicationContext(),
                             "Solved!", Toast.LENGTH_SHORT).show();
@@ -154,18 +148,9 @@ public class MainActivity extends Activity {
         });
     }
 
-    private void refreshDisplay(GridView numberGridView, TextView[] numbers, Integer[] data) {
-        for(int i = 0; i < numberGridView.getChildCount();i++){
-            if(numberGridView.getChildAt(i).getClass()==TextView.class){
-                numbers[i] = (TextView) numberGridView.getChildAt(i);
-                if (data[i] < 10) {
-                    numbers[i].setText(Integer.toString(data[i]));
-                }else{
-                    numbers[i].setText("-");
-                }
-            }
-        }
-    }
+//    private void refreshDisplay(GridView numberGridView) {
+//        ((GridAdapter) numberGridView.getAdapter()).notifyDataSetChanged();
+//    }
 
     //fills the display with a puzzle
     private Integer[] fillDisplay(String answers, String visible) {

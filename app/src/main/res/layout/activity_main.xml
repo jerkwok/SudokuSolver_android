@@ -42,7 +42,7 @@
     android:horizontalSpacing="1dp"
     android:verticalSpacing="1dp"
     android:numColumns="9"
-    android:columnWidth="38dp"
+    android:columnWidth="35dp"
     android:stretchMode="none"
     android:id="@+id/my_grid">
         <!--<TextView-->
